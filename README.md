@@ -1,5 +1,7 @@
 # Market Deformation Geometry
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22051019.svg)](https://doi.org/10.5281/zenodo.22051019)
+
 **A Teichmüller framework for structural change detection in multi-asset, multi-venue markets.**
 
 A structure-first research framework that represents observable markets not as a collection
@@ -38,24 +40,27 @@ Working paper, v0.1 line. No empirical results yet — see the falsification cri
 research-status matrix (Appendix E) inside the paper for what is established mathematics,
 what is proposed, and what is merely hypothesized.
 
-## Publishing via Zenodo
+## Citing
 
-This directory is laid out so it can become the root of a standalone public repository and
-be archived with a DOI through the Zenodo–GitHub integration:
+Cite the concept DOI, which always resolves to the latest version:
 
-1. **Split this directory into its own public GitHub repository** (subtree split, or copy —
-   history is optional for a paper).
-2. `.zenodo.json` already carries the deposit metadata (author, license CC-BY-4.0,
-   keywords); optionally add an ORCID to the `creators` entry before the first release.
-3. On [zenodo.org](https://zenodo.org), log in with GitHub and **enable the repository**
-   under *GitHub* in the account settings.
-4. **Create a GitHub release** (e.g. tag `v0.1.0`). Zenodo archives the release
-   automatically and mints two DOIs: one for the version, one concept DOI that always
-   resolves to the latest version.
-5. Add the DOI badge Zenodo provides to this README and cite the concept DOI.
+> Brendecke, M. (2026). *Market Deformation Geometry: A Teichmüller Framework for
+> Structural Change Detection in Multi-Asset, Multi-Venue Markets.* Zenodo.
+> https://doi.org/10.5281/zenodo.22051019
 
-Optionally generate a PDF of the paper (print-to-PDF from the HTML preserves the layout)
-and attach it to the release, since PDF is the conventional archival format.
+## Releasing a new version
+
+The repository is connected to Zenodo through the GitHub integration; every GitHub
+release is archived automatically and receives its own version DOI under the concept
+DOI above. To publish a new version:
+
+1. Edit `market-deformation-geometry.tex` and rebuild the PDF (command above).
+2. Commit, then create a GitHub release with the next tag (e.g. `v0.2.0`), attaching
+   the rebuilt PDF as a release asset.
+3. Zenodo picks up the release within minutes — no further action needed.
+
+`.zenodo.json` carries the deposit metadata (author, license, keywords); an ORCID can
+be added to the `creators` entry at any time and takes effect with the next release.
 
 ## License
 
