@@ -158,7 +158,11 @@ geometric deformation, cross-asset coherence, cross-broker
 coherence, mixed-dimensional coupling, and triangular consistency,
 and formulates empirical hypotheses, null models, estimator
 validation, falsification tests, and potential applications to
-regime detection. The primary research question is not whether a
+regime detection. A statistical-power pre-calculation determines
+which hypotheses the planned dataset can decide: window-level
+coherence hypotheses within the first cycle, event-level transition
+hypotheses only for large effects, and economic significance not at
+all on realistic horizons. The primary research question is not whether a
 new indicator can be invented, but whether the multidimensional
 geometry of synchronized market observations contains information
 that cannot be reduced to volatility, correlation, PCA,
@@ -1294,6 +1298,7 @@ the market --- and every downstream result inherits that defect.
 
 % ============================================================
 \section{Empirical Dataset: FX Core and Cross-Asset Extension}
+\label{sec:dataset}
 % ============================================================
 
 A first empirical experiment should contain at least $M\geq3$
@@ -1317,6 +1322,126 @@ broker dimensions.
 
 Five-minute bars provide an accessible initial test. Tick-level data
 should be used for a second-stage microstructure analysis.
+
+% ============================================================
+\section{Statistical Power: What the Dataset Can Decide}
+\label{sec:power}
+% ============================================================
+
+A null result reported without a power calculation is a
+non-statement: it cannot distinguish ``there is no effect'' from
+``the data could not have shown an effect of this size.'' Because
+the framework fixes its hypotheses before measurement, the same
+discipline is applied to detectability. This section computes,
+before any data are collected, which of the hypotheses
+H1--H7 the dataset of Section~\ref{sec:dataset} can decide.
+
+Throughout, the significance level is $\alpha=0.05$ (two-sided) and
+the target power is $0.80$, hence
+\begin{equation}
+k=z_{0.975}+z_{0.80}\approx2.80,
+\end{equation}
+and the smallest detectable standardized effect from $n$ independent
+observations is
+\begin{equation}
+d_{\min}=\frac{k}{\sqrt{n}}.
+\label{eq:dmin}
+\end{equation}
+
+\subsection{Three classes of hypotheses, three limiting sample
+units}
+
+The binding constraint is never the raw bar count. Two years of
+five-minute bars over thirteen instruments and three venues contain
+roughly $5.7\times10^6$ bar observations, but adjacent bars and
+overlapping estimation windows are strongly dependent. What limits
+each hypothesis is its own unit of independent information.
+
+\paragraph{Class A --- window statistics (H1, H3, H5, H7).}
+The limiting unit is the effectively independent estimation window.
+Treating one trading day as the scale of effective independence
+gives roughly $250$ windows per instrument-year; two years over ten
+or more instruments yield $n$ in the low thousands even after
+discounting cross-sectional dependence. By \eqref{eq:dmin},
+standardized effects of $d\approx0.04$--$0.18$ are detectable ---
+a tenth of a standard deviation. H1 additionally admits an exact
+permutation null (the broker permutation of the null-model
+section), which does not rely on distributional assumptions at all.
+H7 is decidable with any amount of data, since coordinate
+robustness is a property of the estimator, testable analytically
+and on synthetic maps. \emph{Verdict: decidable on the initial
+dataset.}
+
+\paragraph{Class B --- event statistics (H2, H4, H6).}
+The limiting unit is the independent regime transition, and
+transitions are rare. With $n$ independent events,
+\begin{center}
+\begin{tabular}{lcccccc}
+\toprule
+$n$ events & 10 & 20 & 30 & 50 & 100 & 200\\
+\midrule
+$d_{\min}$ & 0.89 & 0.63 & 0.51 & 0.40 & 0.28 & 0.20\\
+\bottomrule
+\end{tabular}
+\end{center}
+Under the working assumption of 5--15 independent transitions per
+year and market (the event definition must be preregistered
+together with its expected count), a large effect ($d=0.5$,
+requiring 31 events) becomes decidable after roughly 2--6 years on
+a single market; a moderate effect ($d=0.3$, requiring 87 events)
+after 6--17 years. Pooling across markets multiplies the event
+count only to the extent that the markets are genuinely
+independent, which the next paragraph bounds. \emph{Verdict:
+decidable in the first cycle only for large effects; moderate
+effects require multi-year accumulation or genuinely independent
+markets.}
+
+\paragraph{Class C --- economic significance (Stage VI).}
+The estimation error of a Sharpe ratio is approximately
+$\mathrm{SE}(S)\approx\sqrt{(1+S^2/2)/T}$ with $T$ in years
+\cite{Lo2002}. The minimum detectable Sharpe ratio after $T$ years
+is
+\begin{equation}
+S_{\min}(T)=\frac{k}{\sqrt{T-k^2/2}},
+\label{eq:mds}
+\end{equation}
+which is undefined below $k^2/2\approx3.9$ years: on shorter
+samples \emph{no} Sharpe ratio of any size is statistically
+distinguishable from zero.
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+$T$ (years) & 5 & 10 & 15 & 20\\
+\midrule
+$S_{\min}$ per series & 2.70 & 1.14 & 0.84 & 0.70\\
+\bottomrule
+\end{tabular}
+\end{center}
+A portfolio of $\mathrm{BR}$ independent bets improves this by
+$\sqrt{\mathrm{BR}}$ --- but ten USD-quoted FX pairs are far fewer
+than ten independent bets, because a common dollar factor dominates
+bilateral USD rates \cite{Verdelhan2018}. An effective breadth of
+$\mathrm{BR}\approx2$--$4$ is a realistic assumption for the core
+universe, and it is precisely to raise this number that
+Section~\ref{sec:dataset} extends the universe beyond FX. At a
+realistic structural-edge Sharpe of $0.25$ per instrument, the
+required sample is 35 years ($\mathrm{BR}=4$) to 67 years
+($\mathrm{BR}=2$). \emph{Verdict: Stage VI cannot be decided on the
+initial dataset. The decidable content of the first empirical cycle
+is Stages I--V, and a Stage-VI null result will not be reported as
+evidence of absence.}
+
+\subsection{Direction of the approximations}
+
+Every approximation above errs toward optimism: overlapping windows
+and autocorrelation shrink the effective $n$; the effective-breadth
+argument replaces a heterogeneous correlation matrix by an
+equal-correlation summary; and analytic Sharpe standard errors
+understate the true error under autocorrelated returns, so wherever
+a permutation or control distribution is available it takes
+precedence over \eqref{eq:mds}. The detectabilities reported here
+are therefore upper bounds --- the honest reading is ``at most this
+much can be decided,'' never ``at least.''
 
 % ============================================================
 \section{Rolling Window Estimation}
@@ -1524,7 +1649,9 @@ technical indicators.
 
 \subsection*{Stage VI --- Economic validation}
 Evaluate out-of-sample regime classification, conditional returns,
-and risk-adjusted trading performance.
+and risk-adjusted trading performance. Section~\ref{sec:power}
+shows that this stage is not decidable on the initial dataset; it
+becomes meaningful only as data accumulate over years.
 
 % ============================================================
 \section{Falsification Criteria}
@@ -1898,7 +2025,11 @@ Teichmüller-type deformation score & Proposed &
   Synthetic + empirical validation\\
 Market compensator & Hypothesis &
   Test as representation operator\\
-Trading edge & Unknown & Strict out-of-sample testing\\
+Statistical power of the initial dataset & Computed &
+  Upper bounds (Section~\ref{sec:power})\\
+Trading edge & Unknown &
+  Not decidable on the initial dataset
+  (Section~\ref{sec:power}, Class C)\\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -2009,6 +2140,12 @@ Cohomology theory for financial time series,
 546, 122212, 2020.
 doi:10.1016/j.physa.2019.122212.
 
+\bibitem{Lo2002}
+A.~W. Lo,
+The statistics of Sharpe ratios,
+\emph{Financial Analysts Journal},
+58(4), 36--52, 2002.
+
 \bibitem{Mandelbrot}
 B.~B. Mandelbrot,
 The variation of certain speculative prices,
@@ -2032,6 +2169,12 @@ doi:10.1515/zna-2018-0199.
 H.~S. Shin,
 \emph{Risk and Liquidity},
 Oxford University Press, 2010.
+
+\bibitem{Verdelhan2018}
+A.~Verdelhan,
+The share of systematic variation in bilateral exchange rates,
+\emph{The Journal of Finance},
+73(1), 375--418, 2018.
 
 \end{thebibliography}
 
