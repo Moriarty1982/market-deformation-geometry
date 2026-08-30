@@ -162,7 +162,16 @@ regime detection. A statistical-power pre-calculation determines
 which hypotheses the planned dataset can decide: window-level
 coherence hypotheses within the first cycle, event-level transition
 hypotheses only for large effects, and economic significance not at
-all on realistic horizons. The primary research question is not whether a
+all on realistic horizons. A first implementation cycle sharpens
+both the mathematics and the empirics: on simply connected patches
+the proposed distance is identically zero by the Riemann mapping
+theorem, and the tractable carrier of Teichmüller structure is the
+torus, where the distance acquires a closed form on conformal
+classes of $2\times2$ covariances and coordinate robustness (H7)
+becomes a theorem for that estimator; empirically, the venue axis
+fails as a geometric direction but serves as a replication axis,
+giving the conformal shape a measured error floor roughly a factor
+of ten below its movement through time. The primary research question is not whether a
 new indicator can be invented, but whether the multidimensional
 geometry of synchronized market observations contains information
 that cannot be reduced to volatility, correlation, PCA,
@@ -285,6 +294,30 @@ research gap is
 \]
 --- that is, the specific combination, not any individual
 ingredient.
+
+Two further strands border the empirical part of this paper, and
+the boundary should be drawn precisely. First, multi-venue
+econometrics treats the dispersion between venues as a nuisance:
+fragmentation noise to be modeled and removed so that integrated
+variance can be estimated consistently \cite{DiasSchweikert2026}.
+The present framework inverts that stance --- venue dispersion is
+retained as a replicate-based error bar for geometric statistics
+(Section~\ref{sec:firstcycle}); the analytic null distribution for
+geodesic distances between correlation matrices
+\cite{Kuketayev2026}, built on the quotient-affine geometry of
+\cite{ThanwerdasPennec2021}, is the model-based complement to such
+a measured floor, not a substitute for it. Second, the slow
+evolution of market correlation structure is an established
+econophysics finding: correlation-matrix similarity defines
+persistent market states \cite{Muennix2012}, and the correlation
+structure of U.S.\ industry indices evolves on well-separated
+time scales --- the average correlation on a scale beyond five
+years, the leading spectral quantities in event-driven bursts
+\cite{BuccheriMarmiMantegna2013}. That phenomenon is not claimed
+as new here; what this paper adds on that front is the
+instrument --- a scale- and $\mathrm{GL}(2)$-invariant distance
+with a closed form and a proof of extremality, reported together
+with its measured error floor.
 
 Classical quasiconformal and Teichmüller theory provides the
 mathematical foundation; the standard modern framework is Gardiner
@@ -500,7 +533,11 @@ For fixed time and asset,
 \end{equation}
 This is the crucial observation dimension. It is not another time
 series. It represents the dispersion of nominally identical market
-observations.
+observations. The ordering caveat of the asset direction applies
+here with full force: venue indices carry no canonical order, so
+any statistic built on $\Delta_bP$ must be symmetrized --- in
+practice through pairwise differences
+(Section~\ref{sec:firstcycle}).
 
 % ============================================================
 \section{The Broker Fiber: Cross-Venue Price Dispersion}
@@ -740,6 +777,56 @@ This is inspired by the standard logarithmic quasiconformal metric
 structure of Teichmüller theory. The financial quantity should
 therefore be interpreted as a \emph{Teichmüller-inspired deformation
 statistic}.
+
+\subsection{Degeneracy on simply connected patches}
+\label{sec:degeneracy}
+
+The definition above has a failure mode that is easy to miss and
+fatal if missed. If two market patches are simply connected plane
+domains without marked points, the Riemann mapping theorem supplies
+a \emph{conformal} map between them, hence $K_{\min}=1$ and
+$D_T\equiv0$ --- for every pair of market states. Whatever a
+general-purpose implementation reports as nonzero on such patches
+is a property of its own normalization, not of the market. A
+nontrivial Teichmüller distance requires actual moduli: marked
+points, or nontrivial topology.
+
+\subsection{The torus: an exact, closed-form carrier}
+\label{sec:torus}
+
+Exactly one tractable carrier is available in this setting. A flat
+metric on the torus is a positive-definite $2\times2$ matrix; its
+conformal class is that matrix modulo a positive scale factor; and
+$\mathrm{SPD}(2)/\mathbb{R}_{+}$ \emph{is} the Teichmüller space of
+the torus. The extremal map between flat tori is affine
+(Teichmüller's theorem; the quadratic differential is $dz^2$), so
+the inf--sup in \eqref{eq:kmin} has a closed solution. With
+$\Sigma_1,\Sigma_2$ the shape matrices normalized to determinant
+one, $\Lambda=\Sigma_1^{-1}\Sigma_2$, $T=\operatorname{tr}\Lambda$,
+and $\lambda_{+}=\bigl(T+\sqrt{T^2-4}\bigr)/2$,
+\begin{equation}
+d_T=\tfrac12\log\lambda_{+}.
+\label{eq:torusdist}
+\end{equation}
+Up to a constant factor this is the affine-invariant metric on
+covariance matrices. The Teichmüller provenance does not supply a
+new number --- it supplies the \emph{proof that this number is the
+extremal one}, and it removes the optimization that Stage~IV of the
+research programme otherwise requires on two-dimensional patches.
+
+What \eqref{eq:torusdist} buys beyond a correlation is precisely
+one property: $d_T$ is invariant under $\mathrm{GL}(2)$ changes of
+basis of the plane (modulo scale), whereas the PCA concentration
+$\lambda_1/\operatorname{tr}\Sigma$ is not. For this estimator,
+coordinate robustness (H7) is therefore a theorem rather than a
+hypothesis; the hypothesis remains open for every other estimator
+in this paper. Two boundaries stay in force:
+$\mathrm{GL}(2)$-invariance protects against coordinates
+\emph{within} the plane, not against the choice of the plane
+itself, which must be preregistered; and the identification is
+exact only in dimension two --- for larger universes the
+affine-invariant geometry of $\mathrm{SPD}(N)$ remains available,
+but should then be called by that name.
 
 % ============================================================
 \section{Market Teichmüller Space}\label{sec:teichspace}
@@ -1213,6 +1300,10 @@ A properly defined geometric deformation score is more stable under
 admissible coordinate changes than raw-price indicators.
 \end{hypothesis}
 
+For the closed-form torus estimator of Section~\ref{sec:torus}, H7
+holds by construction ($\mathrm{GL}(2)$-invariance); as stated, the
+hypothesis remains open for every other deformation score.
+
 % ============================================================
 \section{Comparison with Correlation, PCA, Cointegration, and Optimal Transport}
 % ============================================================
@@ -1642,6 +1733,9 @@ local metrics.
 
 \subsection*{Stage IV --- Quasiconformal geometry}
 Construct normalized market patches and estimate $\mu$, $K$, $D_T$.
+On two-dimensional patches the extremal distortion has the closed
+form of Section~\ref{sec:torus}; the optimization is only needed
+beyond dimension two.
 
 \subsection*{Stage V --- Statistical validation}
 Compare against volatility, correlation, PCA, cointegration, and
@@ -1745,6 +1839,134 @@ Only after this basic experiment demonstrates an effect should the
 full quasiconformal optimization be introduced.
 
 % ============================================================
+\section{First Empirical Cycle: Implementation Results}
+\label{sec:firstcycle}
+% ============================================================
+
+Stages I and II of the research programme have been implemented and
+run once, on two years of synchronized one-minute bars (2024-08-20
+to 2026-08-18) for twelve instruments observed through three
+cTrader venues. The Stage-I and Stage-II claims below survived an
+adversarial review whose explicit task was refutation; the
+measurement-floor subsection has \emph{not yet} received that
+review and is reported at correspondingly lower confidence. All
+numbers are reported together with what they do \emph{not} show.
+One provenance restriction governs everything in this section: all
+feeds are demo accounts of the respective venues, and whether a
+demo feed reproduces the venue's live price stream exactly is
+itself unverified --- until it is, the results describe the demo
+feeds of three venues.
+
+\subsection{Stage I: the tensor is constructible, and the venue
+axis has measurable admission costs}
+
+Admissibility was defined as the intersection over venues: a minute
+belongs to the tensor only if all $M=3$ venues quote it. For FX and
+gold this costs about 3\% of minutes, leaving roughly $7\times10^5$
+common minutes per instrument. One instrument breaks the naive
+reading of ``the same price at the same time'': for BTC/USD, 53.4\%
+of common minutes have \emph{no} price level that all three venues
+saw simultaneously, driven by measured standing level offsets
+(about $+4.7$ and $-21.8$ USD against a $\sim63{,}700$ USD level).
+Cross-venue price identity is an assumption to be checked per
+instrument, not a fact.
+
+Two implementation lessons generalize. First, the integer price
+scale is a property of the \emph{venue}, not the instrument --- one
+venue quotes BTC/USD with three decimals, the others with two, and
+a raw cross-venue comparison was off by a factor of ten; it was
+caught only because a reported 100.00\% disjointness looked
+impossible. Every per-venue constant must be treated as per-venue.
+Second, the price side (bid, ask, mid) must be pinned empirically
+before any geometry is computed; on these feeds the bar closes
+match the bid side at seven of eight instruments checked --- on a
+deliberately small running sample ($n=14$ minutes per instrument at
+the time of writing, one instrument within noise of the mid), so
+this is an indication under continued verification, not a settled
+fact.
+
+\subsection{Stage II: the venue axis fails as a geometric
+direction --- and succeeds as a replication axis}
+
+The persistence of cross-venue differences was measured through
+pairwise venue differences of the log price \emph{level} --- and
+the level/return distinction matters: everything durably
+venue-specific lives in the level difference and cannot, by
+construction, appear in the return autocorrelation of any single
+venue that served as its control. The headline result of a first,
+naive pass --- strong positive autocorrelation of the venue
+difference across all FX cells --- did not survive the adversarial
+review: 14\% of the minutes, around the daily rollover, carry
+64--88\% of the variance of the venue difference (the missing
+market-phase control); the three venue pairs satisfy
+$d_{13}\equiv d_{12}+d_{23}$ identically and are two degrees of
+freedom, not three; and the acceptance margin sat 59 null standard
+deviations above zero at $n\approx3.5\times10^5$ (39 at the
+core-session $n\approx1.5\times10^5$), so the criterion could not
+fail. A rerun restricted to the core session failed in 7 of 60
+cells, among them the most liquid pair, EUR/USD, in three of its
+six cells and in \emph{both} sample halves --- under the
+symbols-and-halves rule of this framework that is a null result,
+and the surviving statement is deliberately modest: the venue
+difference is not white, an independent per-minute sampling offset
+does not explain it, and its variance is concentrated where
+liquidity is thinnest.
+
+The structural conclusion is quantitative. With
+$\operatorname{Var}(d)/\operatorname{Var}(r)\approx0.023$, a
+(time, venue) patch is intrinsically anisotropic by a factor of
+about $43{:}1$; any dilatation statistic computed on it is a
+constant plus noise, and normalizing the axes divides out exactly
+the quantity of interest. \emph{As a geometric direction, the venue
+axis does not carry.} It carries as a \emph{replication axis}: $M$
+venues are $M$ estimates of the same geometric object, and their
+spread is an error bar that requires no model, no bootstrap, and no
+asymptotics --- precisely the quantity whose absence made the naive
+Stage-II criterion powerless.
+
+\subsection{The measurement floor of the conformal shape}
+
+Using the closed form \eqref{eq:torusdist}, the conformal shape
+$\tau$ of a pair of instruments is the conformal class of their
+$2\times2$ return covariance per (pair, venue, window). Two numbers
+are then reported side by side: the \emph{floor} --- the mean
+pairwise $d_T$ between the three venues within the same window ---
+and the \emph{movement} --- the $d_T$ between consecutive windows
+of the same venue. Their quotient answers, before any hypothesis is
+formulated, whether the shape moves through time by more than the
+instrument error of observing it. This is the inversion announced
+in Section~\ref{sec:related}: where multi-venue econometrics
+removes cross-venue dispersion as fragmentation noise
+\cite{DiasSchweikert2026}, it serves here as the error bar itself;
+the analytic sampling distribution of geodesic distances between
+correlation matrices \cite{Kuketayev2026} offers a model-based
+floor that a future analysis can lay beside this measured one.
+
+Over all 45 pairs of ten FX instruments at daily windows the median
+quotient is $9.8$ (range $4.8$--$19.1$; a four-major pilot gave
+$14.3$ and was not representative). The movement is nearly constant
+across pairs; the floor varies by $3.4\times$ and correlates with
+the anisotropy of the chosen plane ($r\approx0.52$ on the log
+floor, $\approx-0.05$ on the log movement) with a measured exponent
+of $0.29$ against a naive prediction of $0.5$ --- anisotropy is one
+driver of the floor, not the driver, and this attribution rests on
+a single sample. Unlike the Stage-II statistic, the floor is
+\emph{not} rollover-dominated: restricting to the core session
+leaves it essentially unchanged, which is the scale invariance of
+$\tau$ paying off. The numerical resolution of
+\eqref{eq:torusdist} sits near $10^{-8}$, six orders of magnitude
+below the measured floor.
+
+What the quotient is not: it is not a finding --- a pure random
+walk also moves its shape; it carries no placebo, which belongs to
+a hypothesis, not to calibration; and it does not choose the plane,
+which remains a preregistered modeling decision. What it is: the
+first framework quantity measured with its own error bar, and a
+precondition --- had the quotient been near one, every Stage-IV
+hypothesis about $\tau$ would have been undecidable regardless of
+sample size.
+
+% ============================================================
 \section{Expected Contributions}
 % ============================================================
 
@@ -1786,6 +2008,11 @@ Several limitations must remain explicit.
 \item Financial time series are nonstationary.
 \item Apparent geometric structure may be a repackaging of standard
       statistical dependence.
+\item All feeds used in the first empirical cycle
+      (Section~\ref{sec:firstcycle}) are demo accounts, and whether
+      a demo feed reproduces the venue's live price stream exactly
+      is unverified; until it is, every cross-venue number in this
+      paper describes the demo feeds of three venues.
 \end{enumerate}
 These limitations make empirical falsification essential.
 
@@ -2025,6 +2252,16 @@ Teichmüller-type deformation score & Proposed &
   Synthetic + empirical validation\\
 Market compensator & Hypothesis &
   Test as representation operator\\
+Degeneracy of $D_T$ on simply connected patches & Proved &
+  Riemann mapping theorem (Section~\ref{sec:degeneracy})\\
+Closed-form $d_T$ on torus moduli & Established &
+  Teichmüller's theorem (Section~\ref{sec:torus})\\
+H7 for the torus estimator & Theorem &
+  $\mathrm{GL}(2)$ invariance (Section~\ref{sec:torus})\\
+Venue axis as geometric direction & Refuted (first cycle) &
+  Section~\ref{sec:firstcycle}\\
+Venue axis as replication axis & Supported &
+  Error-floor measurement (Section~\ref{sec:firstcycle})\\
 Statistical power of the initial dataset & Computed &
   Upper bounds (Section~\ref{sec:power})\\
 Trading edge & Unknown &
@@ -2061,6 +2298,14 @@ Question 4 is the sharpest: an affirmative answer would remove the
 embedding choice of Section~\ref{sec:beltrami-interp} --- and with
 it the largest single source of arbitrariness in the construction.
 
+The first implementation cycle (Section~\ref{sec:firstcycle})
+answers Question~2 for two-dimensional patches: the equivalence
+relation is conformal equivalence of flat tori, the resulting space
+is $\mathrm{SPD}(2)/\mathbb{R}_{+}$, and the distance has the
+closed form \eqref{eq:torusdist}. The question remains open beyond
+dimension two, where the Teichmüller identification no longer
+holds.
+
 % ============================================================
 % Bibliography
 % ============================================================
@@ -2089,6 +2334,21 @@ Bank for International Settlements,
 \emph{Triennial Central Bank Survey: Foreign Exchange Turnover},
 BIS, various editions.
 \url{https://www.bis.org/statistics/rpfx.htm}
+
+\bibitem{BuccheriMarmiMantegna2013}
+G.~Buccheri, S.~Marmi, and R.~N. Mantegna,
+Evolution of correlation structure of industrial indices of U.S.
+equity markets,
+\emph{Physical Review E},
+88(1), 012806, 2013.
+
+\bibitem{DiasSchweikert2026}
+G.~F. Dias and K.~Schweikert,
+Integrated variance estimation for assets traded in multiple
+venues,
+\emph{Journal of Econometrics},
+255, 106244, 2026.
+doi:10.1016/j.jeconom.2026.106244.
 
 \bibitem{DoCarmo}
 M.~P. do Carmo,
@@ -2140,6 +2400,12 @@ Cohomology theory for financial time series,
 546, 122212, 2020.
 doi:10.1016/j.physa.2019.122212.
 
+\bibitem{Kuketayev2026}
+A.~Kuketayev,
+Connecting Riemannian geometry and statistical inference for
+correlation matrices,
+arXiv:2608.27209, 2026.
+
 \bibitem{Lo2002}
 A.~W. Lo,
 The statistics of Sharpe ratios,
@@ -2151,6 +2417,13 @@ B.~B. Mandelbrot,
 The variation of certain speculative prices,
 \emph{The Journal of Business},
 36(4), 394--419, 1963.
+
+\bibitem{Muennix2012}
+M.~C. Münnix, T.~Shimada, R.~Schäfer, F.~Leyvraz, T.~H. Seligman,
+T.~Guhr, and H.~E. Stanley,
+Identifying states of a financial market,
+\emph{Scientific Reports},
+2, 644, 2012.
 
 \bibitem{Papaioannou2025}
 P.~Papaioannou and A.~N. Yannacopoulos,
@@ -2169,6 +2442,14 @@ doi:10.1515/zna-2018-0199.
 H.~S. Shin,
 \emph{Risk and Liquidity},
 Oxford University Press, 2010.
+
+\bibitem{ThanwerdasPennec2021}
+Y.~Thanwerdas and X.~Pennec,
+Geodesics and curvature of the quotient-affine metrics on
+full-rank correlation matrices,
+in \emph{Geometric Science of Information (GSI 2021)},
+Lecture Notes in Computer Science, Vol.~12829, 93--102, Springer,
+2021.
 
 \bibitem{Verdelhan2018}
 A.~Verdelhan,

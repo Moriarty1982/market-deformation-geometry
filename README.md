@@ -36,9 +36,14 @@ reader-ready, self-contained copy.
 
 ## Status
 
-Working paper, v0.1 line. No empirical results yet — see the falsification criteria and the
-research-status matrix (Appendix E) inside the paper for what is established mathematics,
-what is proposed, and what is merely hypothesized.
+Working paper, v0.3 line. Since v0.3.0 the paper reports the results of a first
+implementation cycle (Stages I–II plus a measurement floor for the conformal shape) and a
+mathematical sharpening: on simply connected patches the proposed distance is identically
+zero, so the tractable carrier of Teichmüller structure is the torus, where the distance
+has a closed form and coordinate robustness (H7) is a theorem for that estimator. None of
+the hypotheses H1–H6 has been tested — see the falsification criteria and the research-status
+matrix (Appendix E) inside the paper for what is established mathematics, what is proposed,
+what is measured, and what is merely hypothesized.
 
 ## Citing
 
