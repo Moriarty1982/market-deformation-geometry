@@ -1846,11 +1846,16 @@ full quasiconformal optimization be introduced.
 Stages I and II of the research programme have been implemented and
 run once, on two years of synchronized one-minute bars (2024-08-20
 to 2026-08-18) for twelve instruments observed through three
-cTrader venues. The Stage-I and Stage-II claims below survived an
-adversarial review whose explicit task was refutation; the
-measurement-floor subsection has \emph{not yet} received that
-review and is reported at correspondingly lower confidence. All
-numbers are reported together with what they do \emph{not} show.
+cTrader venues. Every claim below has now passed an adversarial
+review whose explicit task was refutation: the Stage-I and
+Stage-II claims in a first round, and the measurement-floor and
+estimation-floor subsections in a second round (2026-08-31) whose
+reviewer independently reproduced every reported number from the
+database and re-derived the two key identities
+($d_T=\tfrac12 d_{\mathrm{hyp}}$, and the isotropy of the
+direction null across anisotropic populations) before the numbers
+were accepted. All numbers are reported together with what they do
+\emph{not} show.
 One provenance restriction governs everything in this section: all
 feeds are demo accounts of the respective venues, and whether a
 demo feed reproduces the venue's live price stream exactly is
@@ -1964,7 +1969,63 @@ which remains a preregistered modeling decision. What it is: the
 first framework quantity measured with its own error bar, and a
 precondition --- had the quotient been near one, every Stage-IV
 hypothesis about $\tau$ would have been undecidable regardless of
-sample size.
+sample size. One more thing it is not, established by the
+preregistered follow-up below: it is not the right denominator for
+questions about shape \emph{dynamics}. Against the estimation
+floor of the window covariance, the same movement is a factor of
+five smaller.
+
+\subsection{The estimation floor: what the quotient of 9.8 is
+measured against}
+
+The venue floor answers one question --- is the shape movement
+venue noise? --- and a second, preregistered measurement answered
+the harder one: is it more than the sampling noise of estimating a
+$2\times2$ covariance from one window? The instrument was
+validated before it touched market data, against four conjunctive
+controls: a registered $\chi^2$ prediction for the null distance
+($2n\,d_T^2\to\chi^2_2$, hence a median null distance of
+$\sqrt{\ln 2/n}$); the analytic sampling law of geodesic
+correlation distances of \cite{Kuketayev2026} as a
+code-independent cross-check; exact Wishart/GL(2) invariance of
+the null; and, for the direction statistic below, the isotropy of
+the null across anisotropic populations. All four passed.
+
+The results re-anchor the headline number. The empirical
+split-half floor --- two parity-balanced halves of the same window
+--- runs at $2.0$--$2.6$ times the i.i.d.\ floor, an upper bound
+on the dependence inflation of covariance estimation noise. The
+daily shape movement then sits at a median of $\approx2.0$ times
+this estimation floor (per-pair range $1.6$--$2.6$), not $9.8$:
+under the preregistered two-sided criterion, 43 of 45 pairs lie
+within $\pm2$ standard errors of the decision threshold and are
+recorded as \emph{undecidable}; the single pair exceeding it is
+compatible with the multiple-comparison random rate ($0.74$
+expected), and its identity flips when the split parity is changed
+--- a de-facto perturbation test that the one ``hit'' did not
+survive. The direction of the daily step (median horizontal share
+$0.315$ against a simulated isotropy null of $0.5$) separates the
+data from the i.i.d.\ null but not from a structureless model with
+time-varying per-instrument volatility, which reproduces the
+measured share; the registered all-cells criterion failed in 19 of
+90 cells.
+
+Two statements survive with their limits attached. The shape
+autocorrelation is non-diffusive in the measured band: over 120
+daily lags the distance grows by a factor of $1.9$ against a
+memoryless reference of $\approx9$--$10$, and a noise-corrected
+diffusive extrapolation of the one-day step overshoots the
+measured 120-day value by a factor of four. And the escape route
+is named rather than hidden: if the true single-window estimation
+floor were $\geq0.070$ --- $1.4$ times the measured split-half
+floor, which is itself biased downward by the shared volatility
+path --- the entire curve would be compatible with ordinary
+diffusion; the registered next step is a volatility-clustering
+(GARCH-class) null. Until that null is run, the honest summary of
+shape dynamics at daily windows is: clearly above venue noise,
+barely above estimation noise, direction indistinguishable from
+unstructured volatility --- and every one of these three clauses
+is a measured number, not a stance.
 
 % ============================================================
 \section{Expected Contributions}
@@ -2262,6 +2323,9 @@ Venue axis as geometric direction & Refuted (first cycle) &
   Section~\ref{sec:firstcycle}\\
 Venue axis as replication axis & Supported &
   Error-floor measurement (Section~\ref{sec:firstcycle})\\
+Shape movement above estimation noise & Undecidable &
+  Preregistered split-half floor
+  (Section~\ref{sec:firstcycle})\\
 Statistical power of the initial dataset & Computed &
   Upper bounds (Section~\ref{sec:power})\\
 Trading edge & Unknown &

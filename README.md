@@ -36,14 +36,20 @@ reader-ready, self-contained copy.
 
 ## Status
 
-Working paper, v0.3 line. Since v0.3.0 the paper reports the results of a first
+Working paper, v0.4 line. Since v0.3.0 the paper reports the results of a first
 implementation cycle (Stages I–II plus a measurement floor for the conformal shape) and a
 mathematical sharpening: on simply connected patches the proposed distance is identically
 zero, so the tractable carrier of Teichmüller structure is the torus, where the distance
-has a closed form and coordinate robustness (H7) is a theorem for that estimator. None of
-the hypotheses H1–H6 has been tested — see the falsification criteria and the research-status
-matrix (Appendix E) inside the paper for what is established mathematics, what is proposed,
-what is measured, and what is merely hypothesized.
+has a closed form and coordinate robustness (H7) is a theorem for that estimator. v0.4.0
+adds the preregistered **estimation floor**: against the sampling noise of the window
+covariance — measured with an instrument validated against a registered χ² prediction, a
+published analytic sampling law, exact GL(2) invariance, and a direction-null control —
+the daily shape movement runs at ≈2.0× the floor (not the 9.8× venue-floor headline), the
+preregistered verdict is *undecidable* in 43 of 45 pairs, and every subsection of the
+empirical cycle has now passed a dedicated adversarial review. None of the hypotheses
+H1–H6 has been tested — see the falsification criteria and the research-status matrix
+(Appendix E) inside the paper for what is established mathematics, what is proposed, what
+is measured, and what is merely hypothesized.
 
 ## Citing
 
