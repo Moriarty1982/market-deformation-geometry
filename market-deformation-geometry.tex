@@ -2015,13 +2015,25 @@ autocorrelation is non-diffusive in the measured band: over 120
 daily lags the distance grows by a factor of $1.9$ against a
 memoryless reference of $\approx9$--$10$, and a noise-corrected
 diffusive extrapolation of the one-day step overshoots the
-measured 120-day value by a factor of four. And the escape route
-is named rather than hidden: if the true single-window estimation
-floor were $\geq0.070$ --- $1.4$ times the measured split-half
-floor, which is itself biased downward by the shared volatility
-path --- the entire curve would be compatible with ordinary
-diffusion; the registered next step is a volatility-clustering
-(GARCH-class) null. Until that null is run, the honest summary of
+measured 120-day value by a factor of $4.9$. And the escape route
+is named rather than hidden: only if the true pair-unit estimation
+floor reached $\approx0.106$ --- about $2.1$ times the measured
+split-half floor, which is itself biased downward by the shared
+volatility path --- would the entire curve be compatible with
+ordinary diffusion. (The previous version of this paper stated
+this escape as ``$\geq0.070$, $1.4$ times the floor'' and the
+overshoot as ``a factor of four''; those figures mixed a
+per-window parametrization with pair-unit measurements --- a
+$\sqrt{2}$ slip caught while preregistering the follow-up. Both
+corrections tighten the escape and strengthen the claim.) The
+volatility-clustering (GARCH-class) null that decides this escape
+has since been preregistered and frozen before any measurement: a
+constant-shape null that keeps the observed per-minute radial
+path and bootstraps the direction marginals --- model-free rather
+than a fitted GARCH(1,1), so that seasonality and news clustering
+enter by construction --- with its own instrument validation,
+upper and lower plausibility guards, and the consequences of
+every outcome fixed in advance. Until that null is run, the honest summary of
 shape dynamics at daily windows is: clearly above venue noise,
 barely above estimation noise, direction indistinguishable from
 unstructured volatility --- and every one of these three clauses
