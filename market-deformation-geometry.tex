@@ -92,7 +92,7 @@ in Multi-Asset, Multi-Venue Markets
 
 \author{Marc Brendecke\\[0.15em]\small Independent Research}
 
-\date{August 2026}
+\date{September 2026}
 
 % ============================================================
 \begin{document}
@@ -171,7 +171,11 @@ classes of $2\times2$ covariances and coordinate robustness (H7)
 becomes a theorem for that estimator; empirically, the venue axis
 fails as a geometric direction but serves as a replication axis,
 giving the conformal shape a measured error floor roughly a factor
-of ten below its movement through time. The primary research question is not whether a
+of ten below its movement through time --- though against the
+sampling noise of the window covariance, rather than against venue
+noise, the same movement is only a factor of two above the floor,
+and a preregistered volatility-clustering null narrows but does not
+close the gap. The primary research question is not whether a
 new indicator can be invented, but whether the multidimensional
 geometry of synchronized market observations contains information
 that cannot be reduced to volatility, correlation, PCA,
@@ -2010,34 +2014,113 @@ time-varying per-instrument volatility, which reproduces the
 measured share; the registered all-cells criterion failed in 19 of
 90 cells.
 
-Two statements survive with their limits attached. The shape
-autocorrelation is non-diffusive in the measured band: over 120
-daily lags the distance grows by a factor of $1.9$ against a
-memoryless reference of $\approx9$--$10$, and a noise-corrected
-diffusive extrapolation of the one-day step overshoots the
-measured 120-day value by a factor of $4.9$. And the escape route
-is named rather than hidden: only if the true pair-unit estimation
-floor reached $\approx0.106$ --- about $2.1$ times the measured
-split-half floor, which is itself biased downward by the shared
-volatility path --- would the entire curve be compatible with
-ordinary diffusion. (The previous version of this paper stated
-this escape as ``$\geq0.070$, $1.4$ times the floor'' and the
-overshoot as ``a factor of four''; those figures mixed a
-per-window parametrization with pair-unit measurements --- a
-$\sqrt{2}$ slip caught while preregistering the follow-up. Both
-corrections tighten the escape and strengthen the claim.) The
-volatility-clustering (GARCH-class) null that decides this escape
-has since been preregistered and frozen before any measurement: a
-constant-shape null that keeps the observed per-minute radial
-path and bootstraps the direction marginals --- model-free rather
-than a fitted GARCH(1,1), so that seasonality and news clustering
-enter by construction --- with its own instrument validation,
-upper and lower plausibility guards, and the consequences of
-every outcome fixed in advance. Until that null is run, the honest summary of
-shape dynamics at daily windows is: clearly above venue noise,
-barely above estimation noise, direction indistinguishable from
-unstructured volatility --- and every one of these three clauses
-is a measured number, not a stance.
+One statement survives with its limits attached, and one has had
+to be narrowed. The shape autocorrelation is non-diffusive in the
+measured band: over 120 daily lags the distance grows by a factor
+of $1.9$ against a memoryless reference of $\approx9$--$10$, and a
+noise-corrected diffusive extrapolation of the one-day step
+overshoots the measured 120-day value by a factor of $4.9$. The
+escape route from that conclusion was named rather than hidden ---
+and running it down produced both a correction and a measurement.
+
+\paragraph{The escape route, correctly bounded.} Earlier versions
+priced the escape at a floor of $\approx0.106$, about $2.1$ times
+the measured split-half floor. That figure is not an admissible
+solution: the model $d(k)^2 = F^2 + s^2 k$ forces $F \leq d(1)$,
+and $d(1) = 0.0994$ lies below it. It is the same boundary defect
+that the preregistration's own review had removed at the
+\emph{lower} edge, reappearing unnoticed at the upper one.
+Constrained to the admissible range, the published lag table is
+fitted by $F = 0.0994$, $s = 0.0166$ at $6.8\%$ relative error ---
+so on that table the diffusive reading is not excluded at all,
+merely bounded at $\leq1.95$ times the floor rather than $2.1$.
+This number is stated because it \emph{weakens} the claim of this
+section; publishing only the convenient half would have been the
+wrong choice.
+
+\paragraph{The volatility-clustering null, now measured.} The
+GARCH-class null that decides the escape was preregistered and
+frozen before any measurement --- a constant-shape null that keeps
+the observed per-minute radial path and bootstraps the direction
+marginals, model-free rather than a fitted GARCH(1,1), so that
+seasonality and news clustering enter by construction, with its own
+instrument validation, plausibility guards, and the consequence of
+every outcome fixed in advance --- and it has since been run. All
+four instrument controls passed before market data were touched,
+both guards held, and all 90 registered cells were populated. The
+path-unshared floor came out at $0.049$ and $0.053$ in the two time
+halves, that is $0.98$ to $1.00$ times the split-half floor: the
+downward bias that the escape route required does not appear, and
+by the registered criteria the outcome is closure in every one of
+the 90 cells. Those cells are dependent units drawn from a single
+asset class, so the unanimity is one piece of evidence rather than
+ninety.
+
+That closure covers less than its name suggests, and the limit is
+structural rather than statistical. Because $d_T$ is
+scale-invariant, the suspected bias cannot act through the
+volatility \emph{level} at all; it can act only through the
+day-to-day dispersion of the within-window fourth moment. No
+scenario we were able to construct pushes that channel beyond
+$\approx1.4$, while the criterion required $1.68$--$2.01$ --- with
+two caveats that keep this from being a statement about all
+possible states. The bound is an upper limit over a handful of
+constructed cases, not a proof; and the two figures live in
+different aggregation conventions (median for the channel, root
+mean square for the criterion), a comparison the preregistration
+explicitly forbids, with the conversion unchecked and running in
+the direction that would narrow the gap. More importantly, a shape offset that is constant within
+the day and independent across days --- carrying no shape dynamics
+whatever --- reproduces the step size, the directional share and
+both floors, and both instruments are blind to it by construction.
+Fitted on the two half-curves with an admissible floor, that
+broader reading is excluded in one time half and not in the other.
+The correct verdict is therefore: \emph{the estimation-noise
+version of the escape is closed; the broader version is
+undecided}, and the non-diffusive reading of the lag table cannot
+claim this run as support.
+
+\paragraph{What the run yielded instead.} Two by-products outlast
+the verdict. The three validation anchors turn out to be special
+cases of one closed form,
+\begin{equation}
+F \;=\; \sqrt{\ln 2 / n}\;\cdot\;\sqrt{\kappa/2},
+\qquad
+\kappa \;=\; \frac{\mathbb{E}\,m^4}{\left(\mathbb{E}\,m^2\right)^2},
+\label{eq:floorkappa}
+\end{equation}
+with $m$ the whitened radial part: the estimation floor of any
+shape measurement depends on the window length and one fourth
+moment, to within a few per cent. It is predictable without
+simulation,
+and the run was in effect a measurement of $\kappa$
+($\approx9.6$ for foreign-exchange minutes on daily windows). The
+companion column with isotropic directions differs by at most one
+per cent, so the non-Gaussian direction distribution contributes
+nothing to the floor. The methodological lesson is the sharper of
+the two: the reachable range of a null model should be computed
+\emph{before} it is registered. Here such a calculation would have
+raised the question in advance --- though not settled it: measured
+against the expectation actually registered ($0.09$), the required
+factor would have been $1.13$, comfortably inside the simulated
+range, and only against the value the criterion turned out to
+demand does it become $1.68$--$2.01$. Whether one of the two
+registered outcomes was genuinely unreachable therefore hinges on
+the same convention question this run did not settle. The general
+point survives that ambiguity: a criterion can be preregistered
+with perfect discipline and still have a reachable range nobody
+computed.
+
+The honest summary of shape dynamics at daily windows is therefore
+unchanged in substance and better bounded in reach: clearly above
+venue noise, barely above estimation noise, direction
+indistinguishable from unstructured volatility, and not explicable
+by estimation noise under a shared radial path --- while a
+memoryless daily offset remains an open alternative that the
+present instruments cannot see. Separating it requires the shape
+autocorrelation at sub-daily windows, an instrument the
+preregistration had explicitly set aside as uninformative and
+which this run promotes to the decisive one.
 
 % ============================================================
 \section{Expected Contributions}
@@ -2338,6 +2421,15 @@ Venue axis as replication axis & Supported &
 Shape movement above estimation noise & Undecidable &
   Preregistered split-half floor
   (Section~\ref{sec:firstcycle})\\
+Diffusive reading of the shape ACF & Partly excluded &
+  Preregistered volatility-clustering null: estimation-noise
+  version closed, memoryless daily offset undecided
+  (Section~\ref{sec:firstcycle})\\
+Estimation floor as a closed form & Measured &
+  Equation~\eqref{eq:floorkappa}; the three validation anchors
+  ($\kappa = 2$, $1$, $6.76$) are special cases of it, but two of
+  them share one registered $\chi^2$ prediction, and no derivation
+  is given here\\
 Statistical power of the initial dataset & Computed &
   Upper bounds (Section~\ref{sec:power})\\
 Trading edge & Unknown &

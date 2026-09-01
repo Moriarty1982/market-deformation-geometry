@@ -12,9 +12,10 @@ measure of *structural* market change, distinct from price movement. Foreign exc
 as the running example; the construction applies to any universe of instruments observed
 through several venues.
 
-This is a research programme, deliberately without empirical results: hypotheses, null
-models, estimator-validation tests, and falsification criteria are fixed **before** anything
-is measured.
+This is a structure-first research programme: hypotheses, null models,
+estimator-validation tests, and falsification criteria are fixed **before** anything is
+measured. Since v0.3.0 it also reports measurements — of the instruments, not yet of the
+hypotheses; none of H1–H6 has been tested.
 
 ## Contents
 
@@ -36,7 +37,7 @@ reader-ready, self-contained copy.
 
 ## Status
 
-Working paper, v0.4 line. Since v0.3.0 the paper reports the results of a first
+Working paper, v0.5 line. Since v0.3.0 the paper reports the results of a first
 implementation cycle (Stages I–II plus a measurement floor for the conformal shape) and a
 mathematical sharpening: on simply connected patches the proposed distance is identically
 zero, so the tractable carrier of Teichmüller structure is the torus, where the distance
@@ -46,14 +47,25 @@ covariance — measured with an instrument validated against a registered χ² p
 published analytic sampling law, exact GL(2) invariance, and a direction-null control —
 the daily shape movement runs at ≈2.0× the floor (not the 9.8× venue-floor headline), the
 preregistered verdict is *undecidable* in 43 of 45 pairs, and every subsection of the
-empirical cycle has now passed a dedicated adversarial review. v0.4.1 corrects a √2 unit
-slip in the escape-route figures of that section (caught while preregistering the
-follow-up: in consistent pair units the escape needs ≈2.1× the measured floor, not 1.4×,
-and the diffusive overshoot is 4.9×, not 4× — both corrections strengthen the claim) and
-records that the deciding volatility-clustering null is now preregistered and frozen.
-None of the hypotheses H1–H6 has been tested — see the falsification criteria and the
-research-status matrix (Appendix E) inside the paper for what is established mathematics,
-what is proposed, what is measured, and what is merely hypothesized.
+empirical cycle has now passed a dedicated adversarial review. v0.4.1 corrected a √2 unit
+slip in the escape-route figures of that section. **v0.5.0 runs the escape route down.**
+The deciding volatility-clustering null — constant shape, observed radial path,
+bootstrapped directions, model-free rather than a fitted GARCH(1,1) — was preregistered,
+frozen, and has now been measured (2026-09-01): the path-unshared floor lands at 0.98–1.00× the
+split-half floor, so the downward bias the escape required does not exist, and by the
+registered criteria the outcome is closure in every one of the 90 cells — dependent cells
+from a single asset class, so that unanimity is one piece of evidence, not ninety. The
+same release reports
+two things that cut the other way: the previously published escape figure of ≈0.106 was
+never an admissible fit (the model forces *F* ≤ *d*(1) = 0.0994, and constrained properly
+the diffusive reading is *not* excluded on the pooled table), and the closure covers only
+the estimation-noise version of the escape — a memoryless daily shape offset reproduces
+every measured quantity and is invisible to both instruments. Two by-products outlast the
+verdict: a closed form for the estimation floor of any shape measurement, `F = √(ln 2/n)·√(κ/2)`,
+and the lesson that a null model's reachable range should be computed before it is
+registered. None of the hypotheses H1–H6 has been tested — see the falsification criteria
+and the research-status matrix (Appendix E) inside the paper for what is established
+mathematics, what is proposed, what is measured, and what is merely hypothesized.
 
 ## Citing
 
