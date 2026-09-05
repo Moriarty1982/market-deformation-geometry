@@ -175,7 +175,14 @@ of ten below its movement through time --- though against the
 sampling noise of the window covariance, rather than against venue
 noise, the same movement is only a factor of two above the floor,
 and a preregistered volatility-clustering null narrows but does not
-close the gap. The primary research question is not whether a
+close the gap. Along the scale coordinate, a preregistered
+out-of-sample test cannot reject scale-freedom of the time-averaged
+conformal shape between 5 and 390 minutes at the per-pair resolution
+--- once sub-15-minute asynchrony is removed by a
+lag-summed estimator, which accounts for half to three quarters of
+the naive scale dependence at 5-minute sampling; the per-window
+version of the same question is not decidable on a
+5/15/65-minute grid. The primary research question is not whether a
 new indicator can be invented, but whether the multidimensional
 geometry of synchronized market observations contains information
 that cannot be reduced to volatility, correlation, PCA,
@@ -1657,6 +1664,15 @@ structural transition that appears simultaneously across several
 scales may be qualitatively different from a purely local
 microstructure event.
 
+A first measurement along $\ell$ is reported in
+Section~\ref{sec:scalecoord}. Its precondition is exact
+self-similarity: if $\Sigma(\ell)=\ell^{2H}\Sigma_0$, the
+scale factor cancels in the determinant-normalized shape and $\tau$
+is free of $\ell$ by construction --- which would make $\ell$ the
+one direction along which a relation measured at a coarse scale
+transports without a parameter to a fine one, where the number of
+independent observations is larger by two orders of magnitude.
+
 % ============================================================
 \section{Order-Book and Liquidity-Depth Extension}
 % ============================================================
@@ -1858,7 +1874,10 @@ reviewer independently reproduced every reported number from the
 database and re-derived the two key identities
 ($d_T=\tfrac12 d_{\mathrm{hyp}}$, and the isotropy of the
 direction null across anisotropic populations) before the numbers
-were accepted. All numbers are reported together with what they do
+were accepted; and the scale-coordinate subsection in a third round
+(2026-09-04) that refuted two of five instrument claims of the
+per-window design before it was frozen, and reproduced all ninety
+cells of the pooled measurement afterwards. All numbers are reported together with what they do
 \emph{not} show.
 One provenance restriction governs everything in this section: all
 feeds are demo accounts of the respective venues, and whether a
@@ -2121,6 +2140,161 @@ present instruments cannot see. Separating it requires the shape
 autocorrelation at sub-daily windows, an instrument the
 preregistration had explicitly set aside as uninformative and
 which this run promotes to the decisive one.
+
+\subsection{The scale coordinate: is the conformal shape
+self-similar across sampling?}
+\label{sec:scalecoord}
+
+The multi-timeframe extension adds a scale coordinate $\ell$ to the
+tensor. Its first empirical question is not whether deformation
+propagates across scales but something prior: whether the shape
+$\tau$ of a pair depends on the sampling interval at all. Under
+exact self-similarity the answer is no by construction, and that
+would license a transport --- a relation undecidable at monthly
+resolution ($n_{\mathrm{eff}}\approx100$) would become measurable
+at five-minute resolution with a hundred times the observations.
+The question was approached twice, and the two attempts answered
+different things.
+
+\paragraph{Per window: not decidable on the grid, and set aside
+before freezing.} The natural design compares $\tau$ per window
+across three scales --- 5-minute bars in daily windows, 15-minute
+bars in weekly windows, 65-minute bars in monthly windows --- so
+that each window carries roughly the same $n\approx280$--$330$
+and the estimation floor \eqref{eq:floorkappa} is comparable
+across scales ($\kappa$ measured per scale: $4.4$, $5.6$, $5.5$;
+the parity-balanced split-half floors $0.081$, $0.084$, $0.081$).
+Applying this paper's own lesson --- compute the reachable range
+before registering --- killed the design. The detection limit per
+scale pair, aggregated over windows and corrected for the
+effective breadth of the ten pairs ($2.69$ independent units; the
+limit scales as $N^{-1/4}$ rather than $N^{-1/2}$ because the
+criterion sits on $d_T^2$), is $0.032$--$0.046$ in $d_T$. The
+shifts a two-year pilot showed for the contrasts actually under
+test are $-0.006$ to $+0.019$: for the finest pair a ratio of $0.16$--$0.43$, no scale pair
+decidable, and the finest pair the weakest. Two thirds of the
+pilot's total shift between 5 and 390 minutes sits between 65 and
+390 minutes, above the grid. A first version of the pre-calculation
+had compared the full 5-to-390 shift against the 5-to-15 limit and
+concluded that the fine pair was the one to keep; the commit gate
+caught the mismatched yardstick before the design was frozen.
+
+Four instrument findings from that attempt generalize beyond it,
+each with the correction the adversarial review forced. First, a
+\emph{time-ordered} split-half floor is inflated by a factor of
+$1.80$ at daily windows; four fifths of that sits in the variance
+ratio of the two instruments (intraday volatility seasonality,
+$t=58.6$), one fifth in the correlation --- it is not a correlation
+regime, as first written. A parity-balanced split removes it, but
+that split is blind to dependence structure by construction
+(shuffling within the window changes its floor by $3$--$4\%$), so its
+agreement with \eqref{eq:floorkappa} is a property of the estimator
+and says nothing about the market. Second, the venue axis does
+\emph{not} serve as an asynchrony control: the attenuation of the
+same instrument observed through two venues ($0.13$--$0.42\%$ at
+five minutes) measures venue clock jitter, which is orthogonal to
+the asynchrony between two instruments --- computing a
+cross-instrument pair within one venue or across two changes its
+attenuation by at most $0.3$ percentage points. A first version
+had used it as a bound and attributed $1.5$--$2.8\%$ of the scale
+dependence to asynchrony; lag $\pm1$ alone accounts for
+$5$--$33\%$. Third, the return autocorrelation at one minute
+measures additive noise, not asynchrony; the registered threshold
+of $0.02$ sat at seventeen standard errors and could not fire.
+Fourth, Hurst differences of $0.008$--$0.013$ between instruments
+--- all series estimate at $0.475$--$0.500$, the mild
+anti-persistence being a microstructure artefact of the estimator
+--- produce an artefact in $d_T$ of the full form of
+$0.005$--$0.038$ over 5-to-65 minutes, the height of the signal,
+because $d_T$ mixes correlation and variance ratio. For equal
+variances $d_T=\tfrac12\operatorname{artanh}\rho$, so the
+correlation coordinate alone is immune, and a pooled test must sit
+on it.
+
+\paragraph{Pooled: preregistered, out of sample, and not rejected.}
+The decidable question is weaker: is the \emph{time-averaged}
+shape of a pair --- its correlation, Fisher-transformed ---
+independent of the sampling interval $\Delta$? The estimator was
+built to remove the confound the review had named. On every
+$\Delta\in\{1,2,5,15,30,65,130,390\}$ minutes the
+cross-covariance is summed over lags within a fixed $\pm15$-minute
+window, symmetrically in numerator and denominator,
+\begin{equation}
+\rho_W(\Delta)=
+\frac{\sum_{|L\Delta|\le W}\operatorname{Cov}(r_a[t],r_b[t+L])}
+{\sqrt{\sum_{|L\Delta|\le W}\operatorname{Cov}(r_a[t],r_a[t+L])
+\;\sum_{|L\Delta|\le W}\operatorname{Cov}(r_b[t],r_b[t+L])}},
+\qquad W=15\,\mathrm{min},
+\label{eq:lagsum}
+\end{equation}
+so that whatever scale dependence survives cannot come from
+offsets shorter than $W$. The symmetry matters: a numerator-only
+lag sum drifted by $-0.050$ in $z$ on a synthetic long-memory pair
+with a flat true correlation, which the validation caught before
+any market data were touched (four conjunctive controls, one of
+them that synthesis). The statistic is
+$S_W=z(\rho_W(390))-z(\rho_W(5))$ with $z=\operatorname{artanh}$,
+the sign of the pair fixed once from $\rho_W(390)$; its error is a
+weekly block bootstrap on minute returns, calibrated at $1.05$
+against the half-period difference. Because the two-year pilot
+(2024--2026, four pairs) had informed the design, the test ran out
+of sample on one venue's 2011--2024 series --- nine FX pairs and
+gold, 45 pairs, halves cut at 2017-11-15 --- with the criteria
+frozen first: not rejected (K1) if $|S_W|<3\,\mathrm{SE}$ in both
+halves for at least $80\%$ of units; scale-dependent (K3) if
+$S_W>3\,\mathrm{SE}$ in both halves for at least $80\%$.
+
+The outcome is K1 in both halves: $88.9\%$ and $95.6\%$ of pairs,
+and $87.7$--$97.8\%$ under six weightings including
+breadth-corrected ones; K3 reaches $11.1\%$ and $4.4\%$. The
+detection limit per pair is $3\,\mathrm{SE}\approx0.05$ in $z$
+($\mathrm{SE}=0.016$--$0.018$ at 390 minutes over 6.5 years),
+about four correlation points at $\rho\approx0.5$. Two things
+sharpen the reading. The \emph{naive} lag-0 scale dependence the
+pilot saw does replicate out of sample under the pilot's own
+convention ($+0.055$ in $z$ against $0.06$--$0.10$) --- and the
+lag-summed estimator removes half to three quarters of it as offset
+below fifteen minutes, at five-minute sampling. A first draft of
+the report had compared the pilot's lag-0 figure on four selected
+pairs with the lag-summed median over all 45 and concluded that the
+pilot had not replicated; the review rejected that as a comparison
+across two estimators and two subsets --- the same error class as a
+convention change in favour of a positive result, harder to see
+because its sign is sympathetic. And a small positive sign tilt
+remains ($33/45$ and $35/45$ pairs; in effective units $9/12$ and
+$5/7$, not significant): its aggregate of $4.4\sigma$ in the first
+half falls to $0.95\sigma$ when the lag window is widened from 15
+to 30 minutes --- the one free parameter of the estimator, and the
+perturbation test this framework requires --- so in that half it is
+offset between 15 and 30 minutes; in the second half it is
+$2.4\sigma$ and stable. It is parked, not counted.
+
+What K1 is and is not: it is a non-rejection at a stated
+resolution, not an equivalence test --- a uniform $+0.04$ in $z$
+across all pairs would also have produced it; every number above
+presupposes $W=15$ minutes and is not quotable without it; and
+asynchrony is a property of the feed, so a second venue over the
+same years is the strongest open counter-check. Two deviations of
+the run from the frozen text are disclosed rather than repaired
+after the fact (blocks running Thursday to Wednesday; the shared
+bootstrap draw broken in the first half by unequal week counts,
+which inflated one breadth figure from $8.6$ to $11.7$ without
+touching the verdict). One data finding outlasts the test: a single
+day, 2015-01-15, carries $38.65\%$ of USD/CHF's five-minute
+variance in the first half; removing it moves K1 to $91.1\%$ and
+$95.6\%$.
+
+For the framework the result is a precondition met, not a finding
+about the market: along the scale coordinate the \emph{mean}
+geometry is flat between 5 and 390 minutes to about $0.05$ in $z$,
+so a transport of averaged shape across sampling is not excluded at
+that resolution; whether it holds window by window remains open,
+and if that question has structure, it lives between 65 and 390
+minutes. The methodological residue is the sharper part: a
+correlation compared across sampling intervals at lag zero measures
+asynchrony first and geometry second, and a scale test that does
+not remove offsets by construction publishes the Epps effect as
+self-similarity's failure.
 
 % ============================================================
 \section{Expected Contributions}
@@ -2388,6 +2562,7 @@ established mathematics is never silently blended with untested
 proposals.
 
 \begin{center}
+\small
 \begin{tabular}{p{0.42\textwidth}p{0.14\textwidth}p{0.32\textwidth}}
 \toprule
 Component & Status & Requirement\\
@@ -2430,6 +2605,18 @@ Estimation floor as a closed form & Measured &
   ($\kappa = 2$, $1$, $6.76$) are special cases of it, but two of
   them share one registered $\chi^2$ prediction, and no derivation
   is given here\\
+Venue axis as asynchrony control & Refuted &
+  Venue clock jitter is orthogonal to instrument asynchrony
+  (Section~\ref{sec:scalecoord})\\
+Per-window shape comparison across 5/15/65-minute scales &
+  Not decidable &
+  Reachable-range pre-calculation: contrasts at $0.16$--$0.43$ of
+  the breadth-corrected limit; design set aside before freezing
+  (Section~\ref{sec:scalecoord})\\
+Scale invariance of the mean shape, 5--390 min & Not rejected &
+  Preregistered, out of sample, both halves, lag-summed
+  estimator \eqref{eq:lagsum}; non-rejection at $3\,\mathrm{SE}$,
+  not equivalence (Section~\ref{sec:scalecoord})\\
 Statistical power of the initial dataset & Computed &
   Upper bounds (Section~\ref{sec:power})\\
 Trading edge & Unknown &

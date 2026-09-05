@@ -37,7 +37,7 @@ reader-ready, self-contained copy.
 
 ## Status
 
-Working paper, v0.5 line. Since v0.3.0 the paper reports the results of a first
+Working paper, v0.6 line. Since v0.3.0 the paper reports the results of a first
 implementation cycle (Stages I–II plus a measurement floor for the conformal shape) and a
 mathematical sharpening: on simply connected patches the proposed distance is identically
 zero, so the tractable carrier of Teichmüller structure is the torus, where the distance
@@ -63,7 +63,25 @@ the estimation-noise version of the escape — a memoryless daily shape offset r
 every measured quantity and is invisible to both instruments. Two by-products outlast the
 verdict: a closed form for the estimation floor of any shape measurement, `F = √(ln 2/n)·√(κ/2)`,
 and the lesson that a null model's reachable range should be computed before it is
-registered. None of the hypotheses H1–H6 has been tested — see the falsification criteria
+registered. **v0.6.0 adds the scale coordinate.** The per-window comparison of the
+shape across 5/15/65-minute scales was set aside *before* freezing — its own
+reachable-range pre-calculation put the contrasts under test at 0.16–0.43 of the
+breadth-corrected detection limit, with two thirds of the pilot's scale dependence sitting
+above the grid — and four instrument findings survive it, each with the correction an
+adversarial review forced: a time-ordered split-half floor inflated 1.80× by intraday
+volatility seasonality; the venue axis useless as an asynchrony control (venue clock jitter
+is orthogonal to instrument asynchrony); one-minute return autocorrelation measuring additive
+noise, not asynchrony; and Hurst differences of 0.01 producing a `d_T` artefact the height of
+the signal, which is why a pooled test must sit on the correlation coordinate alone. The
+pooled test was then preregistered, frozen, and run out of sample on 2011–2024 (45 pairs, two
+halves) with a symmetric lag-summed estimator that removes sub-15-minute offsets by
+construction: **the time-averaged shape is not rejected as scale-free between 5 and 390
+minutes** (88.9 % / 95.6 % of pairs within 3 SE, 87.7–97.8 % under six weightings). The naive
+lag-0 scale dependence *does* replicate out of sample — and half to three quarters of it is
+asynchrony below fifteen minutes. A residual sign tilt collapses in the first half from 4.4σ to 0.95σ when the
+lag window is widened to 30 minutes (2.4σ and stable in the second) and is parked, not counted. K1 is a non-rejection at a
+stated resolution (≈0.05 in Fisher-z per pair), not an equivalence test, and every figure
+presupposes the 15-minute lag window. None of the hypotheses H1–H6 has been tested — see the falsification criteria
 and the research-status matrix (Appendix E) inside the paper for what is established
 mathematics, what is proposed, what is measured, and what is merely hypothesized.
 
